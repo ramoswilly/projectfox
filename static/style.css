@@ -1,0 +1,36 @@
+body {
+    background-color: #1A1A1A;
+    color: #FAA930;
+    font-family: 'Space Grotesk', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+#logo {
+    width: 200px;
+    cursor: pointer;
+    transition: transform 0.5s;
+}
+
+#logo.animated {
+    transform: scale(1.1);
+}
+
+#project-title {
+    font-size: 4em;
+    color: inherit;
+    margin-bottom: 1em;
+}
+
+#fact {
+    font-size: 1.5em;
+    margin-top: 2em;
+    max-width: 600px;
+}
