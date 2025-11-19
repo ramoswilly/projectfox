@@ -79,8 +79,8 @@ To run this project locally, you need Docker and Docker Compose installed.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/FOX.git
-    cd FOX
+    git clone https://github.com/ramoswilly/projectfox.git
+    cd projectfox
     ```
 
 2.  **Start the services:**
@@ -89,6 +89,6 @@ To run this project locally, you need Docker and Docker Compose installed.
     ```
 
 3.  **Access the application:**
-    - The trivia game will be available at [http://0.0.0.0:8000](http://0.0.0.0:8000).
+    - The application will be available at [http://0.0.0.0:8000](http://0.0.0.0:8000).
     - The Prometheus dashboard will be available at [http://0.0.0.0:9090](http://0.0.0.0.0:9090).
 
