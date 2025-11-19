@@ -1,8 +1,10 @@
 from flask import Flask, render_template
 import random
 import json
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 @app.route('/')
 def index():
