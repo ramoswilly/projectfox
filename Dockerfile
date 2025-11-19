@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN python -m venv /opt/venv
 
-ENV PATH="/opt/venv:$PATH"
+ENV PATH="/opt/venv/bin:$PATH"
 
 COPY requirements.txt .
 
