@@ -44,7 +44,7 @@ graph LR
         Build --> Deploy[Deploy Stage]
     end
 
-    Deploy -->|SSH Connection| Server[EC2]
+    Deploy -->|SSH Connection| Server[VM]
 
     subgraph Server_Node [Production Server]
         Server -->|Docker Pull| Registry
