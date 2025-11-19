@@ -6,8 +6,13 @@
     <title>Project FOX</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div class="top-right-links">
+        <a href="https://github.com/ramoswilly/projectfox" target="_blank" aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
+        <a href="/metrics">Status</a>
+    </div>
     <div class="container">
         <h1 id="project-title">Project FOX</h1>
         <img src="{{ url_for('static', filename='logo-fox.png') }}" alt="FOX Logo" id="logo" data-xof-src="{{ url_for('static', filename='logo-xof.png') }}">

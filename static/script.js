@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const logo = document.getElementById('logo');
     const fact = document.getElementById('fact');
-    const projectTitle = document.getElementById('project-title'); // Get title element
+    const projectTitle = document.getElementById('project-title');
+    const topRightsLinks = document.querySelectorAll('.top-right-links a');
     let clickCount = 0;
-    const originalLogoSrc = logo.src; // Store original logo source
-    const originalTitle = document.title; // Store original title
-    const originalBodyColor = document.body.style.color; // Store original body color
+    const originalLogoSrc = logo.src;
+    const originalTitle = document.title;
+    const originalBodyColor = document.body.style.color;
 
     function fetchFact() {
         fetch('/get-fact')
@@ -19,28 +20,34 @@ document.addEventListener('DOMContentLoaded', () => {
         logo.classList.add('animated');
         setTimeout(() => {
             logo.classList.remove('animated');
-        }, 500); // Duration should match the CSS transition
+        }, 500);
+    }
+
+    function setTheme(theme) {
+        if (theme === 'xof') {
+            logo.src = logo.dataset.xofSrc;
+            document.title = 'Project XOF';
+            projectTitle.textContent = 'Project XOF';
+            document.body.style.color = '#C0C0C0';
+            topRightsLinks.forEach(link => link.style.color = '#C0C0C0');
+        } else {
+            logo.src = originalLogoSrc;
+            document.title = originalTitle;
+            projectTitle.textContent = 'Project FOX';
+            document.body.style.color = originalBodyColor;
+            topRightsLinks.forEach(link => link.style.color = '#FAA930');
+        }
     }
 
     logo.addEventListener('click', () => {
         clickCount++;
         if (clickCount === 5) {
             triggerAnimation();
-            setTimeout(() => {
-                logo.src = logo.dataset.xofSrc;
-                document.title = 'Project XOF';
-                projectTitle.textContent = 'Project XOF'; // Update title text
-                document.body.style.color = '#C0C0C0'; // Silver
-            }, 250); // Change image mid-animation
+            setTimeout(() => setTheme('xof'), 250);
         } else if (clickCount >= 10) {
             triggerAnimation();
-            setTimeout(() => {
-                logo.src = originalLogoSrc;
-                document.title = originalTitle;
-                projectTitle.textContent = 'Project FOX'; // Revert title text
-                document.body.style.color = originalBodyColor;
-            }, 250); // Change image mid-animation
-            clickCount = 0; // Reset click count
+            setTimeout(() => setTheme('fox'), 250);
+            clickCount = 0;
         }
     });
 
