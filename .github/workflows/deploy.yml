@@ -1,0 +1,67 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Permiso para escribir en GHCR
+
+    steps:
+      - name: Bajar el código
+        uses: actions/checkout@v3
+
+      - name: Loguearse en GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Construir y Pushear Imagen
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+  deploy:
+    needs: build-and-push 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Desplegar vía SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            # 1. Loguearse en el registro (desde VM)
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # 2. Parar y borrar el contenedor viejo (si existe)
+            docker stop project-fox || true
+            docker rm project-fox || true
+
+            # 3. Bajar la imagen nueva
+            # Usamos el nombre del repo en minúsculas
+            IMAGE_URL=ghcr.io/${{ github.repository }}:latest
+            docker pull $IMAGE_URL
+
+            # 4. Correr el nuevo contenedor
+            # Mapeamos el puerto 8000 (interno) al 8000 (externo) para el Túnel
+            docker run -d \
+              --name project-fox \
+              --restart unless-stopped \
+              -p 8000:8000 \
+              $IMAGE_URL
