@@ -36,7 +36,7 @@ body {
 }
 
 .top-right-links {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     display: flex;
