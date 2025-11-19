@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: ${APP_IMAGE_URL:-fox_app_local}
     ports:
       - "8000:8000"
     restart: unless-stopped
