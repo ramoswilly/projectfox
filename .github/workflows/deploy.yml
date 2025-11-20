@@ -68,3 +68,22 @@ jobs:
             docker-compose pull app
             
             docker-compose up -d
+
+      - name: Health Check
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            echo "--- Health Check ---"
+            sleep 20
+            if curl --fail --silent --show-error http://localhost:8000/health; then
+              echo "✅ Health Check PASSED."
+            else
+              echo "❌ Health Check FAILED."
+              # Si falla, intentar mostrar los logs para ver qué pasó
+              docker logs project-fox --tail 20
+              exit 1
+            fi
