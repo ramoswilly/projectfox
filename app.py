@@ -16,5 +16,9 @@ def get_fact():
         facts = json.load(f)
     return random.choice(facts)
 
+@app.route('/health')
+def health_check():
+    return {"status": "ok"}, 200
+
 if __name__ == '__main__':
     app.run(debug=True)
